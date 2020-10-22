@@ -32,25 +32,27 @@ try:
             else:  # this version of Python uses unicode for strings (Python 3+)
                 print("You said {}".format(value))
 
-            req = requests.get(url=api, params={"k": apikey, "q": value})
-            data = req.json()
-            print(data)
+            try:
+                req = requests.get(url=api, params={"k": apikey, "q": value})
+                data = req.json()
+                print(data)
 
-            if "text" in data:
-                proc = subprocess.Popen(
-                    [
-                        "espeak",
-                        "-v",
-                        str(data["voice"]),
-                        "-s",
-                        str(data["speed"]),
-                        "-p",
-                        str(data["pitch"]),
-                        str(data["text"]),
-                    ]
-                )
-                proc.communicate()
-
+                if "text" in data:
+                    proc = subprocess.Popen(
+                        [
+                            "espeak",
+                            "-v",
+                            str(data["voice"]),
+                            "-s",
+                            str(data["speed"]),
+                            "-p",
+                            str(data["pitch"]),
+                            str(data["text"]),
+                        ]
+                    )
+                    proc.communicate()
+            except Exception as e:
+                print(e)
         except sr.UnknownValueError:
             print("Oops! Didn't catch that")
         except sr.RequestError as e:
