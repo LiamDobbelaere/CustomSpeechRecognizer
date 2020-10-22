@@ -37,7 +37,7 @@ try:
             print(data)
 
             if "text" in data:
-                subprocess.Popen(
+                proc = subprocess.Popen(
                     [
                         "espeak",
                         "-v",
@@ -49,6 +49,7 @@ try:
                         str(data["text"]),
                     ]
                 )
+                proc.communicate()
 
         except sr.UnknownValueError:
             print("Oops! Didn't catch that")
